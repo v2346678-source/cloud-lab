@@ -1,9 +1,12 @@
-const express = require('express');
-const cors = require('cors');
-const mongoose = require('mongoose');
-require('dotenv').config();
+const { webcrypto } = require("crypto");
+if (!globalThis.crypto) globalThis.crypto = webcrypto;
 
-const Student = require('./models/Student');
+const express = require("express");
+const cors = require("cors");
+const mongoose = require("mongoose");
+require("dotenv").config();
+
+const Student = require("./models/Student");
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -13,17 +16,18 @@ app.use(cors());
 app.use(express.json());
 
 // Kết nối MongoDB Atlas
-mongoose.connect(process.env.MONGODB_URI)
-  .then(() => console.log('Ket noi MongoDB Atlas thanh cong!'))
-  .catch((err) => console.error('Loi ket noi MongoDB:', err));
+mongoose
+  .connect(process.env.MONGODB_URI)
+  .then(() => console.log("Ket noi MongoDB Atlas thanh cong!"))
+  .catch((err) => console.error("Loi ket noi MongoDB:", err));
 
 // API Hello
-app.get('/api/hello', (req, res) => {
-  res.json({ message: 'Backend dang hoat dong!' });
+app.get("/api/hello", (req, res) => {
+  res.json({ message: "Backend dang hoat dong!" });
 });
 
 // Câu 36: GET /api/students - Lấy danh sách sinh viên
-app.get('/api/students', async (req, res) => {
+app.get("/api/students", async (req, res) => {
   try {
     const students = await Student.find();
     res.json(students);
@@ -33,7 +37,7 @@ app.get('/api/students', async (req, res) => {
 });
 
 // Câu 37: POST /api/students - Thêm sinh viên mới
-app.post('/api/students', async (req, res) => {
+app.post("/api/students", async (req, res) => {
   try {
     const { studentId, name, email } = req.body;
     const newStudent = await Student.create({ studentId, name, email });
@@ -44,12 +48,12 @@ app.post('/api/students', async (req, res) => {
 });
 
 // Câu 38: PUT /api/students/:id - Cập nhật sinh viên
-app.put('/api/students/:id', async (req, res) => {
+app.put("/api/students/:id", async (req, res) => {
   try {
     const updatedStudent = await Student.findByIdAndUpdate(
       req.params.id,
       req.body,
-      { new: true }
+      { new: true },
     );
     res.json(updatedStudent);
   } catch (error) {
@@ -58,10 +62,10 @@ app.put('/api/students/:id', async (req, res) => {
 });
 
 // Câu 39: DELETE /api/students/:id - Xóa sinh viên
-app.delete('/api/students/:id', async (req, res) => {
+app.delete("/api/students/:id", async (req, res) => {
   try {
     await Student.findByIdAndDelete(req.params.id);
-    res.json({ message: 'Xoa sinh vien thanh cong!' });
+    res.json({ message: "Xoa sinh vien thanh cong!" });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

@@ -1,0 +1,20 @@
+version: "3.8"
+
+services:
+  # Backend nằm trong mern-demo/server
+  backend:
+    build: ./mern-demo/server
+    container_name: mern-backend
+    ports:
+      - "5000:5000"
+    environment:
+      - MONGO_URI=mongodb+srv://v2346678_db_user:123456aA@cluster0.8v03fha.mongodb.net/studentdb?appName=Cluster0&retryWrites=true&w=majority
+
+  # Frontend nằm trong client
+  frontend:
+    build: ./client
+    container_name: mern-frontend
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
