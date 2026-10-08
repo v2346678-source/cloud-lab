@@ -1,7 +1,12 @@
 import { useState, useEffect } from "react";
 
 // Khai báo Base URL Backend port 5000
-const API_URL = "http://localhost:5000/api/students";
+// const API_URL = "http://localhost:5000/api/students";
+
+// DÒNG MỚI (Lấy biến môi trường VITE_API_URL, nếu không có mới dùng URL Render mặc định):
+const API_URL =
+  (import.meta.env.VITE_API_URL || "https://mern-backend-236424.onrender.com") +
+  "/api/students";
 
 function App() {
   const [students, setStudents] = useState([]);

@@ -1,0 +1,19 @@
+version: "3.8"
+
+services:
+  backend:
+    image: v23466788/cloud-lab-backend:v1.0
+    container_name: mern-backend-hub
+    ports:
+      - "5000:5000"
+    environment:
+      - MONGODB_URI=mongodb+srv://v2346678_db_user:123456aA@cluster0.8v03fha.mongodb.net/cloud_lab?appName=Cluster0
+      - PORT=5000
+
+  frontend:
+    image: v23466788/cloud-lab-frontend:v1.0
+    container_name: mern-frontend-hub
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
