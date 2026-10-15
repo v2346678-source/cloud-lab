@@ -70,7 +70,14 @@ app.delete("/api/students/:id", async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 });
-
+// Health Check Endpoint cho Cloud PaaS Monitoring (Câu 44)
+app.get("/health", (req, res) => {
+  res.status(200).json({
+    status: "UP",
+    timestamp: new Date(),
+    uptime: process.uptime(),
+  });
+});
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });

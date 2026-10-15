@@ -1,12 +1,7 @@
 import { useState, useEffect } from "react";
 
-// Khai báo Base URL Backend port 5000
-// const API_URL = "http://localhost:5000/api/students";
-
-// DÒNG MỚI (Lấy biến môi trường VITE_API_URL, nếu không có mới dùng URL Render mặc định):
-const API_URL =
-  (import.meta.env.VITE_API_URL || "https://mern-backend-236424.onrender.com") +
-  "/api/students";
+// PHẦN 3 (CÂU 33): Sử dụng đường dẫn tương đối /api/students
+const API_URL = "/api/students";
 
 function App() {
   const [students, setStudents] = useState([]);
@@ -14,7 +9,7 @@ function App() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
 
-  // CÂU 47: Gọi API GET /api/students để lấy danh sách sinh viên
+  // CÂU 47: Gọi API GET /api/students
   const fetchStudents = async () => {
     try {
       const res = await fetch(API_URL);
@@ -29,7 +24,7 @@ function App() {
     fetchStudents();
   }, []);
 
-  // CÂU 49: Xử lý Submit Form -> Gọi API POST /api/students
+  // CÂU 49: Xử lý Submit Form (POST /api/students)
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!studentId || !name || !email)
@@ -46,14 +41,14 @@ function App() {
         setStudentId("");
         setName("");
         setEmail("");
-        fetchStudents(); // Re-fetch danh sách mới
+        fetchStudents();
       }
     } catch (err) {
       console.error("Loi khi them sinh vien:", err);
     }
   };
 
-  // CÂU 77: Cập nhật thông tin sinh viên (PUT /api/students/:id)
+  // CÂU 77: Cập nhật sinh viên (PUT /api/students/:id)
   const handleUpdate = async (id) => {
     const newName = prompt("Nhap ho ten moi:");
     if (!newName) return;
@@ -92,9 +87,11 @@ function App() {
 
   return (
     <div style={{ padding: "30px", fontFamily: "Arial, sans-serif" }}>
-      <h1>Quan Ly Sinh Vien (MERN Stack)</h1>
+      <h1>
+        Quan Ly Sinh Vien (MERN Stack) - Phiên bản 2.0 Production Cloud PaaS
+        (Auto-Deployed)
+      </h1>
 
-      {/* CÂU 48: Form nhập thông tin MSSV, Họ tên, Email */}
       <form
         onSubmit={handleSubmit}
         style={{ marginBottom: "30px", display: "flex", gap: "10px" }}
@@ -128,20 +125,18 @@ function App() {
         </button>
       </form>
 
-      {/* CÂU 47, 77, 78: Hiển thị danh sách & các nút thao tác */}
       <h2>Danh Sach Sinh Vien</h2>
       <ul>
         {students.map((student) => (
           <li key={student._id} style={{ marginBottom: "8px" }}>
             <strong>{student.studentId}</strong> - {student.name} (
-            {student.email}){/* Nút Sửa (CÂU 77) */}
+            {student.email})
             <button
               onClick={() => handleUpdate(student._id)}
               style={{ marginLeft: "10px", cursor: "pointer" }}
             >
               Sua
             </button>
-            {/* Nút Xóa (CÂU 78) */}
             <button
               onClick={() => handleDelete(student._id)}
               style={{ marginLeft: "5px", cursor: "pointer", color: "red" }}
